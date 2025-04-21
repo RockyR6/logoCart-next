@@ -4,20 +4,20 @@ import mongoose, { mongo } from "mongoose";
 const userSchema = new mongoose.Schema({
     _id: {
         type: String, 
-        require:true
+        required:true
     },
     name: {
         type: String,
-        require: true
+        required: true
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     imageUrl: {
         type: String,
-        require: true
+        required: true
     },
     cartItems: {
         type: String,
@@ -25,6 +25,6 @@ const userSchema = new mongoose.Schema({
     }
 }, { minimize: false })
 
-const User = mongoose.model.user || mongoose.model('user', userSchema)
+const User = mongoose.models.user || mongoose.model('user', userSchema)
 
 export default User

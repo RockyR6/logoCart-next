@@ -1,30 +1,32 @@
 import mongoose, { mongo } from "mongoose";
 
-
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     _id: {
-        type: String, 
-        required:true
+      type: String,
+      required: true,
     },
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true
+      type: String,
+      required: true,
+      unique: true,
     },
     imageUrl: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     cartItems: {
-        type: String,
-        default: {}
-    }
-}, { minimize: false })
+      type: [mongoose.Schema.Types.Mixed], // ✅ Accepts an array of any type
+      default: [],
+    },
+  },
+  { minimize: false }
+);
 
-const User = mongoose.models.user || mongoose.model('user', userSchema)
+const User = mongoose.models.user || mongoose.model("user", userSchema);
 
-export default User
+export default User;

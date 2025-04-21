@@ -12,7 +12,7 @@ async function connectDB() {
     }
     if(!cached.promise){
         const opts = {
-            buffercommands:false
+            bufferCommands:false
         }
 
         cached.promise = mongoose.connect(`${process.env.MONGODB_URI}/LogoCart`, opts).then(mongoose => {

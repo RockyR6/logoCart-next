@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import connectDB from "./db.js";
 import User from '../models/User.js';
+import Order from "@/models/Order.js";
 
 
 
@@ -21,7 +22,8 @@ export const syncuserCreation = inngest.createFunction(
             _id: id,
             email: email_addresses[0].email_address,
             name: first_name + ' ' + last_name,
-            imageUrl: image_url
+            imageUrl: image_url,
+            cartItems: {}// I add this cuz in db cart was array
         }
         await connectDB()
         await User.create(userData)
@@ -65,5 +67,32 @@ export const syncUserDeletion = inngest.createFunction(
 
         await connectDB()
         await User.findByIdAndDelete(id)
+    }
+)
+
+// Inngest fuction to create user's order in database
+export const createUserOrder = inngest.createFunction(
+    {
+        id: 'create-user-order',
+        batchEvents: {
+            maxSize: 25,
+            timeout: '5s'
+        }
+    },
+    {event : 'order/created'},
+    async ({events}) => {
+        const orders = events.map((event) => {
+            return {
+                userId: event.data.userId,
+                items: event.data.items,
+                amount: event.data.amount,
+                address: event.data.address,
+                date: event.data.data
+            }
+        })
+        await connectDB()
+        await Order.insertMany(orders)
+
+        return {success: true, processed: orders.length}
     }
 )

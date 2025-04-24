@@ -20,8 +20,8 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     cartItems: {
-      type: [mongoose.Schema.Types.Mixed], // ✅ Accepts an array of any type
-      default: [],
+      type: Object,
+      default: {},
     },
   },
   { minimize: false }

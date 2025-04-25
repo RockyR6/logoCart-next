@@ -14,7 +14,7 @@ export async function POST(request) {
         }
 
         // Calculate amount
-        const amount = await items.reduce(async(acc, item) => {
+        const amount = await items.reduce(async (acc, item) => {
             const product = await Product.findById(item.product)
             return await acc + product.offerPrice * item.quantity
         }, 0)
@@ -34,9 +34,6 @@ export async function POST(request) {
 
         // Clear user cart
         const user = await User.findById(userId);
-        if (!user) {
-            return NextResponse.json({ success: false, message: 'User not found' });
-        }
 
         user.cartItems = {};
         await user.save();

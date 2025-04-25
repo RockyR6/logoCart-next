@@ -19,8 +19,6 @@ export async function POST(request) {
             return await acc + product.offerPrice * item.quantity
         }, 0)
 
-        // Add a 2% fee
-        amount += Math.floor(amount * 0.02);
 
         // Send event to Inngest
         await inngest.send({
